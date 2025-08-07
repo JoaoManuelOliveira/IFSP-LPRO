@@ -1,4 +1,4 @@
-# Projeto de LPRO - IFSP São Miguel Paulista
+# Disciplina de LPRO - IFSP São Miguel Paulista
 
 Este repositório contém os projetos desenvolvidos para a disciplina **Linguagem de Programação (LPRO)** do curso de **Informática para Internet** no **IFSP - Campus São Miguel Paulista**.
 
