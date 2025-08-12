@@ -105,6 +105,20 @@ public class App {
 		return matrizTransposta;
 	}
 
+	public static double[][] escolherMatriz(Scanner in, double[][] m1, double[][] m2, double[][] m3,
+			boolean terceiraOpcional) {
+		System.out.print("Digite o número da matriz (1 ou 2" + (terceiraOpcional && m3 != null ? " ou 3" : "") + "): ");
+		int escolha = in.nextInt();
+		if (escolha == 1)
+			return m1;
+		if (escolha == 2)
+			return m2;
+		if (terceiraOpcional && m3 != null && escolha == 3)
+			return m3;
+		System.out.println("Opção inválida, usando matriz 1 por padrão.");
+		return m1;
+	}
+
 	public static double[][] multiplicacaoPorN(double[][] matrizLocal) {
 		Scanner numero = new Scanner(System.in);
 		double n;
@@ -196,23 +210,23 @@ public class App {
 				break;
 
 			case 2:
-				if (matrizGlobal1.length == matrizGlobal2.length
-						&& matrizGlobal1[0].length == matrizGlobal2[0].length) {
-					matrizOperada = somarMatrizes(matrizGlobal1, matrizGlobal2);
+				double[][] somaA = escolherMatriz(in, matrizGlobal1, matrizGlobal2, matrizOperada, true);
+				double[][] somaB = escolherMatriz(in, matrizGlobal1, matrizGlobal2, matrizOperada, true);
+				if (somaA.length == somaB.length && somaA[0].length == somaB[0].length) {
+					matrizOperada = somarMatrizes(somaA, somaB);
 					System.out.println("Resultado da soma:");
 					printarMatriz(matrizOperada);
 				} else {
 					System.out.println("ERRO! As matrizes não possuem as mesmas dimensões.");
-					System.out.println("(Só é possível somar matrizes que possuem as mesmas dimensões)");
-					System.out.println("");
 				}
-
 				break;
 
 			case 3:
+				double[][] subtracaoA = escolherMatriz(in, matrizGlobal1, matrizGlobal2, matrizOperada, true);
+				double[][] subtracaobB = escolherMatriz(in, matrizGlobal1, matrizGlobal2, matrizOperada, true);
 				if (matrizGlobal1.length == matrizGlobal2.length
 						&& matrizGlobal1[0].length == matrizGlobal2[0].length) {
-					matrizOperada = subtrairMatrizes(matrizGlobal1, matrizGlobal2);
+					matrizOperada = subtrairMatrizes(subtracaoA, subtracaobB);
 					System.out.println("Resultado da subtração:");
 					printarMatriz(matrizOperada);
 				} else {
@@ -223,81 +237,28 @@ public class App {
 				break;
 
 			case 4:
-				if (matrizOperada == null) {
-					System.out.print("Digite qual matriz deseja transpor (1 ou 2): ");
-					int opcaoMatrizTransposta = in.nextInt();
-					if (opcaoMatrizTransposta == 1) {
-						matrizGlobal1 = transporMatrizes(matrizGlobal1);
-					} else if (opcaoMatrizTransposta == 2) {
-						matrizGlobal2 = transporMatrizes(matrizGlobal2);
-
-					} else {
-						System.out.println("Digito Inválido");
-						System.out.println("");
-					}
-				} else {
-					System.out.println("Digite qual matriz deseja transpor (1, 2 ou 3): ");
-					System.out.println("A 3° Matriz é a que você fez as operações");
-					int opcaoMatrizTransposta = in.nextInt();
-
-					if (opcaoMatrizTransposta == 1) {
-						matrizGlobal1 = transporMatrizes(matrizGlobal1);
-					} else if (opcaoMatrizTransposta == 2) {
-						matrizGlobal2 = transporMatrizes(matrizGlobal2);
-
-					} else if (opcaoMatrizTransposta == 3) {
-						matrizOperada = transporMatrizes(matrizOperada);
-
-					} else {
-						System.out.println("Digito Inválido");
-						System.out.println("");
-					}
-				}
+				double[][] transposta = escolherMatriz(in, matrizGlobal1, matrizGlobal2, matrizOperada, true);
+				matrizOperada = transporMatrizes(transposta);
+				System.out.println("Resultado da transposição:");
+				printarMatriz(matrizOperada);
 				break;
 
 			case 5:
-				if (matrizOperada == null) {
-					System.out.print("Digite qual matriz deseja multiplicar (1 ou 2): ");
-					int opcaoMatrizMultiplicadaPorN = in.nextInt();
-					if (opcaoMatrizMultiplicadaPorN == 1) {
-						matrizGlobal1 = multiplicacaoPorN(matrizGlobal1);
-					} else if (opcaoMatrizMultiplicadaPorN == 2) {
-						matrizGlobal2 = multiplicacaoPorN(matrizGlobal2);
-
-					} else {
-						System.out.println("Digito Inválido");
-						System.out.println("");
-					}
-				} else {
-					System.out.println("Digite qual matriz deseja multiplicar (1, 2 ou 3): ");
-					System.out.println("A 3° Matriz é a que você fez as operações");
-					int opcaoMatrizMultiplicadaPorN = in.nextInt();
-
-					if (opcaoMatrizMultiplicadaPorN == 1) {
-						matrizGlobal1 = multiplicacaoPorN(matrizGlobal1);
-					} else if (opcaoMatrizMultiplicadaPorN == 2) {
-						matrizGlobal2 = multiplicacaoPorN(matrizGlobal2);
-
-					} else if (opcaoMatrizMultiplicadaPorN == 3) {
-						matrizOperada = multiplicacaoPorN(matrizOperada);
-
-					} else {
-						System.out.println("Digito Inválido");
-						System.out.println("");
-					}
-				}
-
+				double[][] multN = escolherMatriz(in, matrizGlobal1, matrizGlobal2, matrizOperada, true);
+				matrizOperada = multiplicacaoPorN(multN);
+				System.out.println("Resultado da multiplicação por N:");
+				printarMatriz(matrizOperada);
 				break;
 
 			case 6:
-				if (matrizGlobal1[0].length == matrizGlobal2.length) {
-					matrizOperada = multiplicacaoDeMatrizes(matrizGlobal1, matrizGlobal2);
+				double[][] multA = escolherMatriz(in, matrizGlobal1, matrizGlobal2, matrizOperada, true);
+				double[][] multB = escolherMatriz(in, matrizGlobal1, matrizGlobal2, matrizOperada, true);
+				if (multA[0].length == multB.length) {
+					matrizOperada = multiplicacaoDeMatrizes(multA, multB);
+					System.out.println("Resultado da multiplicação:");
 					printarMatriz(matrizOperada);
 				} else {
-					System.out.println("ERRO! As matrizes não possuem as dimensões necessárias para a multiplicação.");
-					System.out.println(
-							"(Para multiplicar as matrizes, é necessário que o número de colunas da matriz 1 seja igual ao número de linhas da matriz 2)");
-					System.out.println("");
+					System.out.println("ERRO! As dimensões não são compatíveis para multiplicação.");
 				}
 				break;
 
